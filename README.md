@@ -125,9 +125,9 @@ Dataset Source: **Kaggle**
 ---
 **Challenges**
 
-    * Extreme dataset imbalance
+    - Extreme dataset imbalance
     
-    * Missing or incomplete fields
+    - Missing or incomplete fields
     
     - Some metrics fail due to single-class dominance
     
