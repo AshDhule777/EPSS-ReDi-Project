@@ -150,7 +150,6 @@ Adds meaningful context to improve prediction.
 
   - XGBoost
   - LightGBM
-  - Logistic Regression baseline
 
 **🔹 4. Build a Dashboard**
 
