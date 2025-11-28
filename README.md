@@ -1,4 +1,4 @@
-**EPSS Vulnerability Exploit Prediction** 
+## EPSS Vulnerability Exploit Prediction 
 
 **Using CVE, CVSS, EPSS & CISA KEV Data**
 
@@ -7,14 +7,14 @@
 
 Every year, thousands of new **CVE vulnerabilities** are published — but very few are exploited in the wild. For penetration testers and security teams, the critical question becomes:
 
-  **“Which vulnerabilities actually matter right now?”**
+   **“Which vulnerabilities actually matter right now?”**
 
 Traditional metrics like **CVSS** measure severity, but **not exploitation likelihood.**
 Modern datasets like:
 
-  **EPSS (Exploit Prediction Scoring System)**
-
-  **CISA KEV (Known Exploited Vulnerabilities)**
+   - **EPSS (Exploit Prediction Scoring System)**
+ 
+   - **CISA KEV (Known Exploited Vulnerabilities)**
 
 provide indicators of real-world exploitation, but analyzing them at scale is challenging.
 
@@ -124,9 +124,9 @@ Dataset Source: **Kaggle**
 ---
 **Challenges**
 
-    - Extreme dataset imbalance
+    * Extreme dataset imbalance
     
-    - Missing or incomplete fields
+    * Missing or incomplete fields
     
     - Some metrics fail due to single-class dominance
     
@@ -185,6 +185,7 @@ Slides used in this project:
 **Author**
 
 **Ashwini Dhule**
+
 ReDI School – Machine Learning Track
 
 ---
