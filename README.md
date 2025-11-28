@@ -175,14 +175,14 @@ pip install pandas numpy scikit-learn matplotlib
 Upload dataset → open notebook → run all cells.
 
 ---
-** Presentation**
+**Presentation**
 
 Slides used in this project:
 
 **EPSS Vulnerability Exploit Prediction.pptx**
 
 ---
-** Author**
+**Author**
 
 **Ashwini Dhule**
 ReDI School – Machine Learning Track
