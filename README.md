@@ -1,208 +1,196 @@
-**EPSS Vulnerability Exploit Prediction**
-Using CVE, CVSS, EPSS & CISA KEV Data
+**EPSS Vulnerability Exploit Prediction** 
 
+**Using CVE, CVSS, EPSS & CISA KEV Data**
+
+---
 **Introduction**
 
-Every year, thousands of new CVE vulnerabilities are published — but very few are exploited in the wild. For penetration testers and security teams, the critical question is:
+Every year, thousands of new **CVE vulnerabilities** are published — but very few are exploited in the wild. For penetration testers and security teams, the critical question becomes:
 
-“Which vulnerabilities actually matter right now?”
+  **“Which vulnerabilities actually matter right now?”**
 
-Traditional metrics like CVSS measure severity, but not exploitation likelihood. Modern datasets such as:
+Traditional metrics like **CVSS** measure severity, but **not exploitation likelihood.**
+Modern datasets like:
 
-EPSS (Exploit Prediction Scoring System)
+  **EPSS (Exploit Prediction Scoring System)**
 
-CISA KEV (Known Exploited Vulnerabilities)
+  **CISA KEV (Known Exploited Vulnerabilities)**
 
-provide indicators of real-world exploitation, but analyzing this at scale is challenging.
+provide indicators of real-world exploitation, but analyzing them at scale is challenging.
 
-This project explores whether machine learning can help predict exploitation likelihood using a combined dataset of CVE, CVSS, EPSS, and CISA KEV attributes.
+This project explores whether **machine learning** can predict exploitation likelihood using a combined dataset of CVE, CVSS, EPSS, and CISA KEV attributes.
 
-**🎯 Project Goals**
-This project focuses on insight, not perfect accuracy:
+---
+**Project Goals**
 
-Understand how vulnerability attributes are distributed
+This project focuses on **insight**, not high accuracy:
 
-Identify features most related to exploitation
+  - Understand the distribution of vulnerability attributes
 
-Explore why prediction is difficult
+  - Identify features most related to exploitation
 
-Demonstrate how ML could support vulnerability prioritization
+  - Explore why prediction is difficult
 
-Show challenges caused by severe class imbalance
+  - Demonstrate how ML can support security teams
 
-**📂 Dataset**
+  - Highlight challenges due to **severe class imbalance**
+
+---
+**Dataset**
+
 The dataset used in this project is:
 
-cve_cisa_epss_enriched_dataset.csv
+**cve_cisa_epss_enriched_dataset.csv**
 (Uploaded in this repository)
 
-It includes columns such as:
-
+**Sample Columns**
+```
 base_score
-
 impact_score
-
 exploitability_score
-
 epss_score
-
 epss_percentile
+cisa_kev     # 1 = known exploited, 0 = not exploited
+```
+Dataset Source: **Kaggle**
 
-cisa_kev (boolean: whether the vulnerability is known exploited)
+---
+**Project Workflow**
 
-The dataset was obtained from Kaggle.
+**1️⃣ Data Loading & Cleaning**
 
-**🛠️ Project Workflow**
-**1. Data Loading & Cleaning**
+  - Loaded enriched dataset
+  - Selected key numerical columns
+  - Converted cisa_kev TRUE/FALSE → 1/0
+  - Removed missing values
 
-Loaded the enriched dataset
+**2️⃣ Exploratory Analysis**
 
-Selected key numerical columns
+  - Checked EPSS and CVSS score distributions
+  - Observed extreme class imbalance:
+      - Most CVEs = not exploited
+      - Few CVEs = known exploited
 
-Converted cisa_kev TRUE/FALSE to 1/0
+**3️⃣ Model Training**
 
-Removed missing values
+  A Random Forest Classifier was used because it:
+    - Handles non-linear data
+    - Works well with imbalance
+    - Supports mixed features
+    
+  **Train/Test Split:** 80/20
 
-**2. Exploratory Analysis**
+**4️⃣ Evaluation**
 
-Checked distribution of EPSS and CVSS scores
+  Due to imbalance, the model predicts mostly “not exploited.”
+  This reflects real-world exploitation patterns, not a model failure.
 
-Observed extreme class imbalance:
+---
+**Machine Learning Model**
 
-Most CVEs = not exploited
+**Model Used: Random Forest Classifier**
 
-Very few = known exploited
+**Input Features**
+  ```
+  base_score
+  exploitability_score
+  impact_score
+  epss_score
+  epss_percentile
+  ```
+**Target**
+  ```
+  cisa_kev   # 1 = exploited, 0 = not exploited
+  ```
+---
+**Key Insights**
 
-**3. Model Training**
+    - EPSS is the strongest predictor of exploitation
+  
+    - CVSS alone does not indicate likelihood of attack
+  
+    - Severe class imbalance makes prediction difficult
+  
+    - Random Forest still reveals meaningful relationships
 
-A Random Forest Classifier was used because it:
+**Top Feature Importance:**
 
-Handles non-linear data
+  **1.** epss_score
+  
+  **2.** exploitability_score
+  
+  **3.** base_score
 
-Works well with imbalance
+---
+**Challenges**
 
-Manages mixed-feature datasets
+    - Extreme dataset imbalance
+    
+    - Missing or incomplete fields
+    
+    - Some metrics fail due to single-class dominance
+    
+    - Needs more variety for model generalization
 
-Train/Test split: 80/20
-
-**4. Evaluation**
-
-Due to dataset imbalance, the model predicts mostly the “not exploited” class.
-This is not an error — it reflects real-world exploitation patterns.
-
-**🤖 Machine Learning Model**
-
-**Model used:** Random Forest Classifier
-
-Input features:
-
-base_score
-
-exploitability_score
-
-impact_score
-
-epss_score
-
-epss_percentile
-
-**Target:**
-
-cisa_kev - whether the CVE is known exploited
-
-**📊 Key Findings & Insights**
-
-EPSS is the strongest predictor of exploitation
-
-CVSS scores alone do not indicate likelihood of attack
-
-Severe class imbalance makes ML prediction difficult
-
-Random Forest still reveals meaningful relationships
-
-**Feature importance highlights:**
-
-epss_score
-
-exploitability_score
-
-base_score
-
-**🚀 Challenges**
-
-**Extreme dataset imbalance**
-
-Exploited CVEs are extremely rare
-
-Missing or incomplete fields
-
-Some metrics fail because only one class dominates
-
-Requires more data variety for better model generalization
-
-**📈 Future Improvements**
-
-To make the model more practical:
+---
+**Future Improvements**
 
 **🔹 1. Use NLP on CVE Descriptions**
 
-Text features greatly improve real-world vulnerability prediction.
+Adds meaningful context to improve prediction.
 
 **🔹 2. Apply Resampling**
 
-SMOTE
-
-Class weighting
-
-Undersampling
+  - SMOTE
+  - Undersampling
+  - Class weighting
 
 **🔹 3. Try Advanced Models**
 
-XGBoost
-
-LightGBM
-
-Logistic Regression baseline
+  - XGBoost
+  - LightGBM
+  - Logistic Regression baseline
 
 **🔹 4. Build a Dashboard**
 
-A simple web UI for pentesters to quickly score vulnerabilities.
+A UI for pentesters to quickly score vulnerabilities.
 
-**📑 Project Structure**
+---
+**Project Structure**
+```
 📁 EPSS-Vulnerability-Exploit-Prediction
-│── 📘 EPSS_ReDI_Project.ipynb
-│── 📄 cve_cisa_epss_enriched_dataset.csv
-│── 📄 EPSS Vulnerability Exploit Prediction.pptx
-│── 📄 README.md
-
-**🖥️ How to Run the Notebook**
-
-Install required packages:
-
+│── 📓 EPSS_ReDI_Project.ipynb
+│── 📊 cve_cisa_epss_enriched_dataset.csv
+│── 🖼️ EPSS Vulnerability Exploit Prediction.pptx
+│── 📘 README.md
+```
+---
+**How to Run the Notebook**
+**Install required packages**
+```
 pip install pandas numpy scikit-learn matplotlib
+```
+**Run**
 
+Upload dataset → open notebook → run all cells.
 
-Then:
-
-Open Jupyter or Google Colab
-
-Upload the dataset
-
-Run all notebook cells
-
-**🎤 Presentation**
+---
+** Presentation**
 
 Slides used in this project:
+
 **EPSS Vulnerability Exploit Prediction.pptx**
 
+---
+** Author**
 
-EPSS Vulnerability Exploit Pred…
-
-**🧑‍💻 Author**
-Ashwini Dhule
+**Ashwini Dhule**
 ReDI School – Machine Learning Track
 
-**🏁 Conclusion**
+---
+**Conclusion**
 
-This project demonstrates that while predicting real-world exploitation is hard, combining EPSS, CVSS, and KEV data offers meaningful insights. Machine learning can support security analysts by highlighting high-risk CVEs — helping teams prioritize what truly matters.
+This project demonstrates that while predicting real-world exploitation is difficult, combining **EPSS, CVSS, and KEV** offers powerful insights.
+Machine learning can support security teams by highlighting high-risk CVEs — helping organizations prioritize the vulnerabilities that truly matter.
 
+---
