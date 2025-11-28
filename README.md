@@ -2,7 +2,8 @@
 
 **Using CVE, CVSS, EPSS & CISA KEV Data**
 
----
+<hr style="border: 0.5px solid #ddd;">
+
 **Introduction**
 
 Every year, thousands of new **CVE vulnerabilities** are published — but very few are exploited in the wild. For penetration testers and security teams, the critical question becomes:
